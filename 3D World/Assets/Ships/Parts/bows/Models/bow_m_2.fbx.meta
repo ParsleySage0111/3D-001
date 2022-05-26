@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: bow_m_2
-    second: {fileID: 2100000, guid: 2bdcba7baf40f7242a6dd16e0841c989, type: 2}
+    second: {fileID: 2100000, guid: 8f7daa6e33ea8b94fa3d68652fa2786a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
