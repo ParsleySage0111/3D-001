@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cd2e63e127390a14a9aa6c8e5554568e
+guid: e8d112ab8ae32e04fa3673b528c53259
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: engine_s_1
-    second: {fileID: 2100000, guid: c79a93848549b7742b4c782064e46f39, type: 2}
+      name: thruster_l_1
+    second: {fileID: 2100000, guid: 1d17352deba455a4f9157301cf429c1e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -70,7 +70,7 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 40
+    normalSmoothAngle: 30
     normalImportMode: 1
     tangentImportMode: 3
     normalCalculationMode: 4

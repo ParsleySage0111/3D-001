@@ -368,7 +368,7 @@ PrefabInstance:
       objectReference: {fileID: 1309789362}
     - target: {fileID: 5154147022734828479, guid: ea812aebad61dba44a569133f0cf7a48, type: 3}
       propertyPath: speed
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5154147022734828479, guid: ea812aebad61dba44a569133f0cf7a48, type: 3}
       propertyPath: minHeight
@@ -376,7 +376,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5154147022734828479, guid: ea812aebad61dba44a569133f0cf7a48, type: 3}
       propertyPath: hoverHeight
-      value: 16
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea812aebad61dba44a569133f0cf7a48, type: 3}
