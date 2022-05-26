@@ -268,6 +268,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2895719263274873904}
   - component: {fileID: 1946027638}
+  - component: {fileID: 5154147022734828479}
+  - component: {fileID: 5176418214172228638}
   m_Layer: 0
   m_Name: BIKE
   m_TagString: Untagged
@@ -296,6 +298,7 @@ Transform:
   - {fileID: 1205450453002107964}
   - {fileID: 2455363652902035870}
   - {fileID: 6360843425579520117}
+  - {fileID: 3735163391302825880}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -307,14 +310,87 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2550297427042201226}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 10
+  m_Drag: 1
+  m_AngularDrag: 0.3
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5154147022734828479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2550297427042201226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f9aa7f1c572bca45914242e8922d83c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BikeAnimator: {fileID: 5176418214172228638}
+  bikeRB: {fileID: 1946027638}
+  body: {fileID: 3097065534655295448}
+  targetHeight: 10
+  thrusterForce: 100
+  stability: 1
+  speed: 5
+  forwardForce: 200
+  steerForce: 20
+  minHeight: 5
+  maxHeight: 500
+  throttleSensitivity: 0.1
+--- !u!95 &5176418214172228638
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2550297427042201226}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b0109034c2cc85f4fbb010aca20db3bf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &3707489990891915871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3735163391302825880}
+  m_Layer: 0
+  m_Name: CameraPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3735163391302825880
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3707489990891915871}
+  m_LocalRotation: {x: 0.13052596, y: -0, z: -0, w: 0.99144495}
+  m_LocalPosition: {x: 0, y: 2.7000008, z: -6.919998}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2895719263274873904}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5523601792897108314
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,7 +680,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2895719263274873904}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -45, y: 0, z: 0}
 --- !u!33 &7869896763472418975
 MeshFilter:
   m_ObjectHideFlags: 0
