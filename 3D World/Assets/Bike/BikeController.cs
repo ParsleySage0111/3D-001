@@ -87,7 +87,7 @@ public class BikeController : MonoBehaviour
     private float Distance(Transform transform)
     {
         var isHit = Physics.Raycast(body.position, -Vector3.up, out hit);
-        if (isHit && hit.distance <= 5) { return hit.distance; }
+        if (isHit && hit.distance <= hoverHeight) { return hit.distance; }
         return transform.position.y;
     }
     private void FixedUpdate()
