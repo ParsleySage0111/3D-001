@@ -6,6 +6,7 @@ public class MissileBase : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] Rigidbody MissileRB;
+    [SerializeField] Collider MissileCollider;
     [Header("Missile Config")]
     [SerializeField] float 
         ThrusterForce = 0,
@@ -22,7 +23,12 @@ public class MissileBase : MonoBehaviour
     {
         
     }
-    void Update()
+    private void Update()
+    {
+        
+    }
+
+    private void FixedUpdate()
     {
         
     }
