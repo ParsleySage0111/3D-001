@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class VertexCounter : MonoBehaviour
@@ -9,10 +7,10 @@ public class VertexCounter : MonoBehaviour
     private int VertexCount = 0;
     void Start()
     {
-        IterateTruChild();
+        CountVerts();
     }
     
-    void IterateTruChild()
+    private void CountVerts()
     {
         var MFInChildren = ParentTransform.GetComponentsInChildren<MeshFilter>();
         foreach( MeshFilter mf in MFInChildren)
