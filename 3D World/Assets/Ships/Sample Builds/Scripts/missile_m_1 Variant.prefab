@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2781085649947253187}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95fe1b0d8a0d27c42980860b38a9ab6f, type: 3}
   m_Name: 
@@ -75,7 +75,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3116672664534726182, guid: 0363c76adabd33a4e843b21c217974cf, type: 3}
       propertyPath: m_Name
-      value: missile_m_1
+      value: missile_m_1 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 3116672664534726200, guid: 0363c76adabd33a4e843b21c217974cf, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3116672664534726201, guid: 0363c76adabd33a4e843b21c217974cf, type: 3}
       propertyPath: m_UseGravity
@@ -84,6 +88,10 @@ PrefabInstance:
     - target: {fileID: 3116672664534726201, guid: 0363c76adabd33a4e843b21c217974cf, type: 3}
       propertyPath: m_AngularDrag
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3116672664534726201, guid: 0363c76adabd33a4e843b21c217974cf, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0363c76adabd33a4e843b21c217974cf, type: 3}

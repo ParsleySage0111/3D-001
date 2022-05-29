@@ -5,70 +5,89 @@ using UnityEngine;
 public class MissileBase : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] Rigidbody MissileRB;
-    [SerializeField] Collider MissileCollider;
+    [SerializeField] Rigidbody missileRB;
+    [SerializeField] Collider missileCollider;
     [Header("Missile Config")]
     [SerializeField] float Speed = 100;
     [SerializeField] float MaxRange = 800,
-        TrackRate = 12,
-        ProximityFuse = 5,
-        DeviationSpeed = 5,
-        DeviationAmount = 3,
-        LeadTime = 10;
+        trackRate = 12,
+        proximityFuse = 5,
+        deviationSpeed = 5,
+        deviationAmount = 3,
+        leadTime = 10;
 
     #region Private Variables
+
     bool isTracking = false;
     bool isArmed = false;
+    float distance;
     Vector3 offset, deviatedOffset;
-    Transform _t;
+    Rigidbody targetRB;
+    Transform _t, target;
     Quaternion rotation;
     #endregion
 
-    //public Transform TargetTransform { private get; set; }
-    public Rigidbody TargetRB { private get; set; }
-    public Transform TargetTransform;
+    #region Getter & Setter
+    public Transform Target { set { target = value; } }
+    #endregion
+
+    private void Awake()
+    {
+        _t = transform;
+    }
     void Start()
     {
-        Init();
-        _t = transform;   
-
+        InitComponents();  
     }
 
-    private void Init()
+    public void FireMissile()
     {
-        TargetRB = TargetTransform.GetComponent<Rigidbody>();
+        enabled = true;
+        missileRB.isKinematic = false;
+        _t.SetParent(null);
+    }
+    private void InitComponents()
+    {
+        targetRB = target.GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        var BasePrediction = PredictMovement(LeadTime);
-        var DeviatedPrediction = AddDeviation(BasePrediction, LeadTime);
+        var BasePrediction = PredictMovement(leadTime);
+        var DeviatedPrediction = AddDeviation(BasePrediction, leadTime);
         RotateMissile(DeviatedPrediction);
+        Detonate();
     }
 
     void RotateMissile(Vector3 deviatedPrediction)
     {
         offset = deviatedPrediction - _t.position;
         rotation = Quaternion.LookRotation(offset);
-        MissileRB.MoveRotation(Quaternion.RotateTowards(_t.rotation, rotation, TrackRate * Time.deltaTime));
+        missileRB.MoveRotation(Quaternion.RotateTowards(_t.rotation, rotation, trackRate * Time.deltaTime));
     }
 
     private Vector3 PredictMovement(float leadTime)
     {
         var predictionTime = Mathf.Lerp(0, 10, leadTime);
-        var basePrediction = TargetTransform.position + TargetRB.velocity * predictionTime;
+        var basePrediction = target.position + targetRB.velocity * predictionTime;
         return basePrediction;
     }
 
     private Vector3 AddDeviation(Vector3 basePrediction, float leadTime)
     {
-        var deviation = new Vector3(Mathf.Cos(Time.time * DeviationSpeed), 0, 0);
-        var predictionOffset = _t.TransformDirection(deviation) * DeviationAmount * leadTime;
+        var deviation = new Vector3(Mathf.Cos(Time.time * deviationSpeed), 0, 0);
+        var predictionOffset = _t.TransformDirection(deviation) * deviationAmount * leadTime;
         return basePrediction + predictionOffset;
     }
 
     private void FixedUpdate()
     {
-        MissileRB.velocity = _t.forward * Speed;
+        missileRB.velocity = _t.forward * Speed;
+    }
+
+    private void Detonate()
+    {
+        distance = Vector3.Distance(_t.position, target.transform.position);
+        if (distance >= proximityFuse)  return; 
     }
 }
