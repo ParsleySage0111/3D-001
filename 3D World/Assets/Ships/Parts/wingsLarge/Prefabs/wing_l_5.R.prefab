@@ -143,7 +143,6 @@ GameObject:
   - component: {fileID: 2986461255991491594}
   - component: {fileID: 2224163748855804847}
   - component: {fileID: 4123369182736222053}
-  - component: {fileID: 8696540603324868862}
   m_Layer: 0
   m_Name: wing_l_5.R
   m_TagString: Untagged
@@ -185,6 +184,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -215,20 +215,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8696540603324868862
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2466242088520820400}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -79815128379969822, guid: 4ff58f66884d4be4a8ee34e61a9b346f, type: 3}
 --- !u!1 &3263754953689740306
 GameObject:
   m_ObjectHideFlags: 0

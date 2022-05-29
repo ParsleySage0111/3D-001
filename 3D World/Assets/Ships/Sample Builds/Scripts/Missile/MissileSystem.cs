@@ -17,37 +17,48 @@ public class MissileSystem : MonoBehaviour
     [SerializeField] Transform target;
     private static ObjectPool<MissileBase> MissilePool;
     private bool IsFullyLoaded = false;
+    private Task[] loadingTask, firingTask;
     #endregion
 
     #region TEST Variables
     [SerializeField] TextMeshProUGUI active;
     [SerializeField] TextMeshProUGUI inactive;
     [SerializeField] TextMeshProUGUI all;
+    MissilePoolHandler poolHandler;
     #endregion
+
+    private void Awake()
+    {
+        GetLaunchers();
+        poolHandler = MissilePoolHandler.Instance;
+        poolHandler.MissilePrefab = MissilePrefab;
+        poolHandler.InitPool();
+        MissilePool = poolHandler.MissilePool;
+        loadingTask = new Task[MissileLaunchers.Length];
+        firingTask = new Task[MissileLaunchers.Length];
+    }
+
+    void GetLaunchers()
+    {
+        if (MissileLaunchers.Length != 0) return;
+        MissileLaunchers = GetComponentsInChildren<MissileLauncher>();
+    }
 
     void Start()
     {
-        InitMissilePool();
-        //InitVariables();
         LoadMissiles();
-        OpenMissiles();
-        Invoke("FireMissiles", 10);
+        InvokeRepeating("FireMissiles", 5, 5);
     }
-    void InitVariables()
+
+    async void LoadMissiles()
     {
-
+        for (var c = 0; c < MissileLaunchers.Length; c++)
+        {
+            loadingTask[c] = MissileLaunchers[c].LoadMissile();
+        }
+        await Task.WhenAll(loadingTask);
+        IsFullyLoaded = true;
     }
-
-    void InitMissilePool()
-    {
-        MissilePool = new ObjectPool<MissileBase>(
-            () => { return Instantiate(MissilePrefab); },
-            missile => { missile.gameObject.SetActive(true); },
-            missile => { missile.gameObject.SetActive(false); },
-            missile => { Destroy(missile.gameObject); },
-            false, 10, 50 );
-    }
-
     private void Update()
     {
         active.SetText(MissilePool.CountActive.ToString());
@@ -55,33 +66,18 @@ public class MissileSystem : MonoBehaviour
         all.SetText(MissilePool.CountAll.ToString());
     }
 
-    async void LoadMissiles()
-    {
-        
-        foreach (MissileLauncher launcher in MissileLaunchers)
-        {
-            if(launcher.Isloaded) { continue; }
-            var missile = MissilePool.Get();
-            await launcher.LoadMissile(missile);
-            await Task.Delay(ReloadTime);
-        }
-    }
-
-    async void OpenMissiles()
-    {
-        foreach (MissileLauncher launcher in MissileLaunchers)
-        {
-            launcher.OpenLauncher();
-            await Task.Delay(OpenTime);
-        }
-    }
-
     async void FireMissiles()
     {
-        foreach (MissileLauncher launcher in MissileLaunchers)
+        if (!IsFullyLoaded) return;
+        for (var c = 0; c < MissileLaunchers.Length; c++)
         {
-            launcher.FireMissile(target);
+            IsFullyLoaded = false;
+            int index = Random.Range(0, target.childCount);
+            var childTarget = target.GetChild(index);
+            firingTask[c] = MissileLaunchers[c].FireMissile(childTarget);
             await Task.Delay(OpenTime);
         }
+        await Task.WhenAll(firingTask);
+        LoadMissiles();
     }
 }

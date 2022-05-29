@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MissileBase : MonoBehaviour
@@ -8,13 +7,13 @@ public class MissileBase : MonoBehaviour
     [SerializeField] Rigidbody missileRB;
     [SerializeField] Collider missileCollider;
     [Header("Missile Config")]
-    [SerializeField] float Speed = 100;
-    [SerializeField] float MaxRange = 800,
-        trackRate = 12,
+    [SerializeField] float Speed = 50;
+    [SerializeField] int LifeSpan = 30,
+        trackRate = 30,
         proximityFuse = 5,
         deviationSpeed = 5,
         deviationAmount = 3,
-        leadTime = 10;
+        leadTime = 1;
 
     #region Private Variables
 
@@ -37,13 +36,13 @@ public class MissileBase : MonoBehaviour
     }
     void Start()
     {
-        InitComponents();  
+        InitComponents();
+        Invoke("Detonate", LifeSpan);
     }
 
     public void FireMissile()
     {
-        enabled = true;
-        missileRB.isKinematic = false;
+        SetObject(true);
         _t.SetParent(null);
     }
     private void InitComponents()
@@ -53,9 +52,17 @@ public class MissileBase : MonoBehaviour
 
     private void Update()
     {
-        var BasePrediction = PredictMovement(leadTime);
-        var DeviatedPrediction = AddDeviation(BasePrediction, leadTime);
-        RotateMissile(DeviatedPrediction);
+        if (targetRB)
+        {
+            var BasePrediction = PredictMovement(leadTime);
+            var DeviatedPrediction = AddDeviation(BasePrediction, leadTime);
+            RotateMissile(DeviatedPrediction);
+        }
+        else
+        {
+            RotateMissile(target.position);
+        }
+        if (!TargetInProx()) return;
         Detonate();
     }
 
@@ -84,10 +91,24 @@ public class MissileBase : MonoBehaviour
     {
         missileRB.velocity = _t.forward * Speed;
     }
+    private bool TargetInProx()
+    {
+        distance = Vector3.Distance(_t.position, target.position);
+        return (distance <= proximityFuse);
+    }
 
     private void Detonate()
     {
-        distance = Vector3.Distance(_t.position, target.transform.position);
-        if (distance >= proximityFuse)  return; 
+        CancelInvoke();
+        SetObject(false);
+        ExplosionPoolHandler.Instance.SpawnExplosion(_t);
+        MissilePoolHandler.Instance.ReleaseMissile(this);
+    }
+
+    private void SetObject(bool isEnabled)
+    {
+
+        enabled = isEnabled;
+        missileRB.isKinematic = !isEnabled;
     }
 }

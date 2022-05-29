@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class MissileLauncher : MonoBehaviour
 {
+    [Header("Launcher Settings")]
+
+    [SerializeField] int loadingTime = 1000;
 
     #region Private Variables
     Animator LauncherAnim;
@@ -21,24 +24,28 @@ public class MissileLauncher : MonoBehaviour
         set { isLoaded = value; } }
     #endregion
 
-    void Start()
+    private void Awake()
     {
         ComponentsInit();
     }
 
-    public async Task LoadMissile(MissileBase missile)
+    public async Task LoadMissile()
     {
-        Missile = missile;
+        if(Isloaded) return;
+        Missile = MissilePoolHandler.Instance.GetMissile();
+        await Task.Delay(loadingTime);
         Isloaded = true;
         _tM = missile.transform;
         _tM.SetParent(_t);
         _tM.position = _t.position;
         _tM.rotation = _t.rotation;
-        await Task.Yield();
+
     }
 
-    public void FireMissile(Transform target)
+    public async Task FireMissile(Transform target)
     {
+        OpenLauncher();
+        await Task.Delay(1000);
         missile.Target = target;
         missile.FireMissile();
         Missile = null;
@@ -52,7 +59,7 @@ public class MissileLauncher : MonoBehaviour
         LauncherAnim = GetComponent<Animator>();
     }
 
-    public void OpenLauncher()
+    void OpenLauncher()
     {
         isOpen = true;
         LauncherAnim.SetBool("isOpen", isOpen); 
