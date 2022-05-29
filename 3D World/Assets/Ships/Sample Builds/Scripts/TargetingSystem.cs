@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TargetingSystem : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private List<Transform> Targets;
     void Start()
     {
         
