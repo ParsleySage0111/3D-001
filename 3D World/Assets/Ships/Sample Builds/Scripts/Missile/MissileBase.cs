@@ -13,19 +13,17 @@ public class MissileBase : MonoBehaviour
         proximityFuse = 5,
         timeArmed = 3,
         timeTrack = 4,
-        deviationSpeed = 5,
-        deviationAmount = 3,
         leadTime = 1;
 
     #region Private Variables
-
     bool isTracking = false;
     bool isArmed = false;
     float distance;
-    Vector3 offset, deviatedOffset;
+    Vector3 offset, finalOffset;
     Rigidbody targetRB;
     Transform _t, target;
     Quaternion rotation;
+    MissilePoolHandler missilePool;
     #endregion
 
     #region Getter & Setter
@@ -66,21 +64,15 @@ public class MissileBase : MonoBehaviour
     private void InitComponents()
     {
         targetRB = target.GetComponent<Rigidbody>();
+        missilePool = MissilePoolHandler.Instance;
     }
 
     private void Update()
     {
         if (!isTracking) return;
-        if (targetRB)
-        {
-            var BasePrediction = PredictMovement(leadTime);
-            var DeviatedPrediction = AddDeviation(BasePrediction, leadTime);
-            RotateMissile(DeviatedPrediction);
-        }
-        else
-        {
-            RotateMissile(target.position);
-        }
+        if (targetRB) finalOffset = PredictMovement(leadTime);
+        else finalOffset = target.position;
+        RotateMissile(finalOffset);
         if (!TargetInProx()) return;
         Detonate();
     }
@@ -99,13 +91,6 @@ public class MissileBase : MonoBehaviour
         return basePrediction;
     }
 
-    private Vector3 AddDeviation(Vector3 basePrediction, float leadTime)
-    {
-        var deviation = new Vector3(Mathf.Cos(Time.time * deviationSpeed), 0, 0);
-        var predictionOffset = _t.TransformDirection(deviation) * deviationAmount * leadTime;
-        return basePrediction + predictionOffset;
-    }
-
     private void FixedUpdate()
     {
         missileRB.velocity = _t.forward * Speed;
@@ -121,7 +106,7 @@ public class MissileBase : MonoBehaviour
         CancelInvoke();
         SetObject(false);
         ExplosionPoolHandler.Instance.SpawnExplosion(_t);
-        MissilePoolHandler.Instance.ReleaseMissile(this);
+        missilePool.ReleaseMissile(this);
     }
 
     private void SetObject(bool isEnabled)

@@ -9,11 +9,9 @@ public class MissilePoolHandler : MonoBehaviour
     private static MissilePoolHandler instance;
     public static MissilePoolHandler Instance{
         get {
-
             if (instance == null)
             {
                 instance = new GameObject("MissilePoolStatics").AddComponent<MissilePoolHandler>();
-                DontDestroyOnLoad(instance);
             }
             return instance;
         }
@@ -48,6 +46,5 @@ public class MissilePoolHandler : MonoBehaviour
     {
         missilePool.Release(missile);
     }
-
 
 }

@@ -15,6 +15,7 @@ public class MissileLauncher : MonoBehaviour
     bool isLoaded = false;
     MissileBase missile;
     Transform _t, _tM;
+    MissilePoolHandler missilePool;
     #endregion
 
     #region Getter & Setter
@@ -32,7 +33,7 @@ public class MissileLauncher : MonoBehaviour
     public async Task LoadMissile()
     {
         if(Isloaded) return;
-        Missile = MissilePoolHandler.Instance.GetMissile();
+        Missile = missilePool.GetMissile();
         Isloaded = true;
         _tM = missile.transform;
         _tM.SetParent(_t);
@@ -56,6 +57,7 @@ public class MissileLauncher : MonoBehaviour
     {
         _t = transform;
         LauncherAnim = GetComponent<Animator>();
+        missilePool = MissilePoolHandler.Instance;
     }
 
     void OpenLauncher()
