@@ -13,7 +13,7 @@ public class ExplosionPoolHandler : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = new GameObject("SceneStatics").AddComponent<ExplosionPoolHandler>();
+                instance = new GameObject("ExplosionPoolStatics").AddComponent<ExplosionPoolHandler>();
                 DontDestroyOnLoad(instance);
             }
             return instance;

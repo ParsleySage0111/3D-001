@@ -33,19 +33,18 @@ public class MissileLauncher : MonoBehaviour
     {
         if(Isloaded) return;
         Missile = MissilePoolHandler.Instance.GetMissile();
-        await Task.Delay(loadingTime);
         Isloaded = true;
         _tM = missile.transform;
         _tM.SetParent(_t);
         _tM.position = _t.position;
         _tM.rotation = _t.rotation;
-
+        await Task.Delay(loadingTime);
     }
 
     public async Task FireMissile(Transform target)
     {
         OpenLauncher();
-        await Task.Delay(1000);
+        await Task.Delay(2000);
         missile.Target = target;
         missile.FireMissile();
         Missile = null;
@@ -66,7 +65,7 @@ public class MissileLauncher : MonoBehaviour
     }
     private async void CloseLauncher()
     {
-        await Task.Delay(1000);
+        await Task.Delay(2000);
         isOpen = false;
         LauncherAnim.SetBool("isOpen", isOpen); 
     }

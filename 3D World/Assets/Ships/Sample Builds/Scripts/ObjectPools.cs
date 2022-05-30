@@ -5,12 +5,16 @@ using UnityEngine;
 public class ObjectPools : MonoBehaviour
 {
     [SerializeField] ExplosionHandler explosionPrefab;
-    void Start()
+    [SerializeField] MissileBase MissilePrefab;
+
+    private void Awake()
     {
         ExplosionPoolHandler.Instance.ExplosionPrefab = explosionPrefab;
+        MissilePoolHandler.Instance.MissilePrefab = MissilePrefab;
 
         MissilePoolHandler.Instance.InitPool();
         ExplosionPoolHandler.Instance.InitPool();
     }
+
 
 }

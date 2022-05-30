@@ -11,6 +11,8 @@ public class MissileBase : MonoBehaviour
     [SerializeField] int LifeSpan = 30,
         trackRate = 30,
         proximityFuse = 5,
+        timeArmed = 3,
+        timeTrack = 4,
         deviationSpeed = 5,
         deviationAmount = 3,
         leadTime = 1;
@@ -37,12 +39,28 @@ public class MissileBase : MonoBehaviour
     void Start()
     {
         InitComponents();
-        Invoke("Detonate", LifeSpan);
+    }
+    private void OnEnable()
+    {
+        Invoke(nameof(Detonate), LifeSpan);
+        Invoke(nameof(SetArmed), timeArmed);
+        Invoke(nameof(SetTracking), timeTrack);
+    }
+    void SetArmed()
+    {
+        missileCollider.enabled = true;
+        isArmed = true;
+    }
+
+    void SetTracking()
+    {
+        isTracking = true;
     }
 
     public void FireMissile()
     {
         SetObject(true);
+        if(_t == null) { return; }
         _t.SetParent(null);
     }
     private void InitComponents()
@@ -52,6 +70,7 @@ public class MissileBase : MonoBehaviour
 
     private void Update()
     {
+        if (!isTracking) return;
         if (targetRB)
         {
             var BasePrediction = PredictMovement(leadTime);
@@ -107,8 +126,16 @@ public class MissileBase : MonoBehaviour
 
     private void SetObject(bool isEnabled)
     {
-
+        if (this == null) { return; }
         enabled = isEnabled;
+        isArmed = false;
+        isTracking = false;
+        missileCollider.enabled = false;
         missileRB.isKinematic = !isEnabled;
+    }
+
+    private void OnCollisionEnter()
+    {
+        Detonate();
     }
 }

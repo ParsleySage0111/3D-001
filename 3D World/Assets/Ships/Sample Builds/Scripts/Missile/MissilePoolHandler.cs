@@ -12,7 +12,7 @@ public class MissilePoolHandler : MonoBehaviour
 
             if (instance == null)
             {
-                instance = new GameObject("SceneStatics").AddComponent<MissilePoolHandler>();
+                instance = new GameObject("MissilePoolStatics").AddComponent<MissilePoolHandler>();
                 DontDestroyOnLoad(instance);
             }
             return instance;

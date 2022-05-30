@@ -6,36 +6,23 @@ using TMPro;
 public class MissileSystem : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] MissileBase MissilePrefab;
     [SerializeField] MissileLauncher[] MissileLaunchers;
 
-    [Header("LauncherSettings Intervals")]
-    [SerializeField] int ReloadTime = 5000;
-    [SerializeField] int OpenTime = 1000;
+    [Header("LauncherSettings")]
+    [SerializeField] int LaunchInterval = 1000;
 
     #region Private Variables
-    [SerializeField] Transform target;
-    private static ObjectPool<MissileBase> MissilePool;
     private bool IsFullyLoaded = false;
     private Task[] loadingTask, firingTask;
     #endregion
 
     #region TEST Variables
-    [SerializeField] TextMeshProUGUI active;
-    [SerializeField] TextMeshProUGUI inactive;
-    [SerializeField] TextMeshProUGUI all;
-    MissilePoolHandler poolHandler;
+    [SerializeField] Transform target;
     #endregion
 
     private void Awake()
     {
         GetLaunchers();
-        poolHandler = MissilePoolHandler.Instance;
-        poolHandler.MissilePrefab = MissilePrefab;
-        poolHandler.InitPool();
-        MissilePool = poolHandler.MissilePool;
-        loadingTask = new Task[MissileLaunchers.Length];
-        firingTask = new Task[MissileLaunchers.Length];
     }
 
     void GetLaunchers()
@@ -46,8 +33,15 @@ public class MissileSystem : MonoBehaviour
 
     void Start()
     {
+        Init();
         LoadMissiles();
-        InvokeRepeating("FireMissiles", 5, 5);
+        InvokeRepeating(nameof(FireMissiles), 5, 5);
+    }
+
+    void Init()
+    {
+        loadingTask = new Task[MissileLaunchers.Length];
+        firingTask = new Task[MissileLaunchers.Length];
     }
 
     async void LoadMissiles()
@@ -59,23 +53,17 @@ public class MissileSystem : MonoBehaviour
         await Task.WhenAll(loadingTask);
         IsFullyLoaded = true;
     }
-    private void Update()
-    {
-        active.SetText(MissilePool.CountActive.ToString());
-        inactive.SetText(MissilePool.CountInactive.ToString());
-        all.SetText(MissilePool.CountAll.ToString());
-    }
 
     async void FireMissiles()
     {
         if (!IsFullyLoaded) return;
+        IsFullyLoaded = false;
         for (var c = 0; c < MissileLaunchers.Length; c++)
         {
-            IsFullyLoaded = false;
             int index = Random.Range(0, target.childCount);
             var childTarget = target.GetChild(index);
             firingTask[c] = MissileLaunchers[c].FireMissile(childTarget);
-            await Task.Delay(OpenTime);
+            await Task.Delay(LaunchInterval);
         }
         await Task.WhenAll(firingTask);
         LoadMissiles();
