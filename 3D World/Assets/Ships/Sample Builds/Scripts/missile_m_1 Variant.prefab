@@ -12,16 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95fe1b0d8a0d27c42980860b38a9ab6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MissileRB: {fileID: 2781085649947253212}
-  MissileCollider: {fileID: 2781085649947253213}
+  missileRB: {fileID: 0}
+  missileCollider: {fileID: 0}
   Speed: 50
-  MaxRange: 800
-  TrackRate: 50
-  ProximityFuse: 5
-  DeviationSpeed: 50
-  DeviationAmount: 10
-  LeadTime: 0
-  TargetTransform: {fileID: 0}
+  LifeSpan: 30
+  trackRate: 30
+  proximityFuse: 5
+  timeArmed: 3
+  timeTrack: 4
+  leadTime: 1
 --- !u!1001 &997762750434897893
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,6 +81,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3116672664534726201, guid: 0363c76adabd33a4e843b21c217974cf, type: 3}
+      propertyPath: m_Mass
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3116672664534726201, guid: 0363c76adabd33a4e843b21c217974cf, type: 3}
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
@@ -98,15 +101,5 @@ PrefabInstance:
 --- !u!1 &2781085649947253187 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3116672664534726182, guid: 0363c76adabd33a4e843b21c217974cf, type: 3}
-  m_PrefabInstance: {fileID: 997762750434897893}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &2781085649947253213 stripped
-CapsuleCollider:
-  m_CorrespondingSourceObject: {fileID: 3116672664534726200, guid: 0363c76adabd33a4e843b21c217974cf, type: 3}
-  m_PrefabInstance: {fileID: 997762750434897893}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &2781085649947253212 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 3116672664534726201, guid: 0363c76adabd33a4e843b21c217974cf, type: 3}
   m_PrefabInstance: {fileID: 997762750434897893}
   m_PrefabAsset: {fileID: 0}

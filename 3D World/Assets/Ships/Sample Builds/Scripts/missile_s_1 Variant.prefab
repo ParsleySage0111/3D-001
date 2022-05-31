@@ -4826,8 +4826,6 @@ MonoBehaviour:
   proximityFuse: 7
   timeArmed: 2
   timeTrack: 3
-  deviationSpeed: 5
-  deviationAmount: 1
   leadTime: 0
 --- !u!1001 &4070153114252396919
 PrefabInstance:
@@ -4836,6 +4834,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 109378747402082748, guid: f6b7c7372cb8752489eb34d5c525c040, type: 3}
+      propertyPath: m_Mass
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 109378747402082748, guid: f6b7c7372cb8752489eb34d5c525c040, type: 3}
       propertyPath: m_UseGravity
       value: 0
